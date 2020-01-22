@@ -28,19 +28,11 @@ SET time_zone = "+00:00";
 -- Tabelstructuur voor tabel `parkeergarage`
 --
 
-CREATE TABLE `parkeergarage` (
+CREATE TABLE `parking_garage` (
   `id` int(11) NOT NULL,
-  `naam` varchar(250) NOT NULL,
-  `plaats` varchar(250) NOT NULL
+  `name` varchar(250) NOT NULL,
+  `place` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Gegevens worden geëxporteerd voor tabel `parkeergarage`
---
-
-INSERT INTO `parkeergarage` (`id`, `naam`, `plaats`) VALUES
-(1, 'Utrecht Centrum', 'Utrecht'),
-(2, 'Overvecht', 'Utrecht');
 
 -- --------------------------------------------------------
 
@@ -48,13 +40,13 @@ INSERT INTO `parkeergarage` (`id`, `naam`, `plaats`) VALUES
 -- Tabelstructuur voor tabel `parkeerplek`
 --
 
-CREATE TABLE `parkeerplek` (
-  `parkeergarage` int(11) NOT NULL,
+CREATE TABLE `parking_spot` (
+  `garage` int(11) NOT NULL,
   `id` int(11) NOT NULL,
-  `niveau` int(11) NOT NULL,
-  `nummer` int(11) NOT NULL,
-  `bezetting` int(11) NOT NULL,
-  `reservering_tot` date NOT NULL
+  `level` int(11) NOT NULL,
+  `number` int(11) NOT NULL,
+  `occupation` int(11) NOT NULL,
+  `reserve_untill` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -64,15 +56,15 @@ CREATE TABLE `parkeerplek` (
 --
 -- Indexen voor tabel `parkeergarage`
 --
-ALTER TABLE `parkeergarage`
+ALTER TABLE `garage`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexen voor tabel `parkeerplek`
 --
-ALTER TABLE `parkeerplek`
+ALTER TABLE `parking_spot`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `parkeergarage_id` (`parkeergarage`);
+  ADD UNIQUE KEY `parking_garage_id` (`parking_garage`);
 
 --
 -- AUTO_INCREMENT voor geëxporteerde tabellen
@@ -81,13 +73,13 @@ ALTER TABLE `parkeerplek`
 --
 -- AUTO_INCREMENT voor een tabel `parkeergarage`
 --
-ALTER TABLE `parkeergarage`
+ALTER TABLE `parking_garage`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT voor een tabel `parkeerplek`
 --
-ALTER TABLE `parkeerplek`
+ALTER TABLE `parking_spot`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -97,8 +89,8 @@ ALTER TABLE `parkeerplek`
 --
 -- Beperkingen voor tabel `parkeerplek`
 --
-ALTER TABLE `parkeerplek`
-  ADD CONSTRAINT `parkeergarage_id` FOREIGN KEY (`parkeergarage`) REFERENCES `parkeergarage` (`id`);
+ALTER TABLE `parking_spot`
+  ADD CONSTRAINT `parking_garage_id` FOREIGN KEY (`parking_garage`) REFERENCES `parking_garage` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
