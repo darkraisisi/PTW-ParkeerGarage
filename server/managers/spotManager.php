@@ -14,5 +14,14 @@ include_once '../db.php';
             $count = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $count[0];
         }
+        
+        public function setSpaceOccupiedState($spotNmr, $level, $state){
+            $statement = $con->prepare("UPDATE `plaats` SET `occupied` = :state WHERE `spot_number` = :spotNmr");
+            $statement->bindValue(":state",$state);
+            $statement->bindValue(":spotNmr",$spotNmr);
+            $statement->execute();
+            $count = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $count[0];
+        }
     }
 ?>
