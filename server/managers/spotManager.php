@@ -2,20 +2,18 @@
 include_once 'database/db.php';
     class Spot{
 
-        public function _construct(){
+        public function getAllFromGarage($id){
             global $con;
-            var_dump($con);
-            $this->con = $con;
-        } 
-
-        public function getAll(){
-            $statement = $this->con->prepare("SELECT * FROM `plaats`");
+            $statement = $con->prepare("SELECT * FROM `parking_spot` WHERE garage = :garage_id" );
+            $statement->bindValue(":garage_id",$id);
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function getAmountFree(){
-            $statement = $this->con->prepare("SELECT count(*) FROM `plaats` WHERE occupied = 'false' ");
+        public function getAmountFreeFromGarage($id){
+            global $con;
+            $statement = $con->prepare("SELECT count(*) FROM `parking_spot` WHERE occupation = 'false' AND garage = :garage_id");
+            $statement->bindValue(":garage_id",$id);
             $statement->execute();
             $count = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $count[0];
@@ -27,12 +25,31 @@ include_once 'database/db.php';
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
         
-        public function setSpaceOccupiedState(int $spotNmr, int $level, bool $state){
-            $statement = $this->con->prepare("UPDATE `plaats` SET `occupied` = :state WHERE `spot_number` = :spotNmr");
+        public function setSpaceOccupiedState($spotNmr, $level, $state){
+            global $con;
+            $statement = $con->prepare("UPDATE `parking_spot` SET `occupation` = :state WHERE `number` = :spotNmr");
             $statement->bindValue(":state",$state);
             $statement->bindValue(":spotNmr",$spotNmr);
             $statement->execute();
             $count = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $count[0];
         }
+
+        public function getAmountOccupiedFromGarage($id){
+            global $con;
+            $statement = $con->prepare("SELECT count(*) FROM `parking_spot` WHERE occupation = 'true' AND garage = :garage_id");
+            $statement->bindValue(":garage_id",$id);
+            $statement->execute();
+            $count = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $count[0];
+        }
+
+        public function getParkinglots(){
+            global $con;
+            $statement = $con->prepare("SELECT * FROM `parking_garage`");
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        }
     }
+?>
