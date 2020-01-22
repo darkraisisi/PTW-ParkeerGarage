@@ -18,13 +18,17 @@ include_once 'database/db.php';
             $count = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $count[0];
         }
-
-        public function getFreeSpaces(){
-            $statement = $this->con->prepare("SELECT * FROM `plaats` WHERE occupied = 'false' ");
-            $statement->execute();
-            return $statement->fetchAll(PDO::FETCH_ASSOC);
-        }
         
+        public function getFreeSpacesFromGarage($id){
+            global $con;
+            $statement = $con->prepare("SELECT * FROM `plaats` WHERE occupied = 'false' ");
+            $statement->execute();
+            $statement->bindValue(":garage_id",$id);
+            $statement->execute();
+            $count = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $count[0];
+        }
+
         public function setSpaceOccupiedState($spotNmr, $level, $state){
             global $con;
             $statement = $con->prepare("UPDATE `parking_spot` SET `occupation` = :state WHERE `number` = :spotNmr");
@@ -44,12 +48,21 @@ include_once 'database/db.php';
             return $count[0];
         }
 
-        public function getParkinglots(){
+        public function getParkingGarages(){
             global $con;
             $statement = $con->prepare("SELECT * FROM `parking_garage`");
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
 
+        }
+
+        public function getAmountParkingLotsFromGarage($id){
+            global $con;
+            $statement = $con->prepare("SELECT count('number') FROM `parking_spot` WHERE garage = :garage_id");
+            $statement->bindValue(":garage_id",$id);
+            $statement->execute();
+            $count = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $count[0]
         }
     }
 ?>
