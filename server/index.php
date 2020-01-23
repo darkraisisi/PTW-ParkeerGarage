@@ -2,6 +2,7 @@
 include_once "managers/spotManager.php";
 
 $spot = new Spot();
+$SECRET = "6423834HeuEHUADd679ii7e67990YEu";
 $BASE_URL = "/PTW-parkeergarage/server/";
 $request = $_SERVER['REQUEST_URI'];
 //manier 1, de functie uit de request halen.
@@ -19,26 +20,31 @@ print('No post has been made');
  */
 
 //manier 2, de url gebruiken om de request aan te geven, en alle request te maken zoals ze horen.
-switch ($request) {
-    case $BASE_URL . '':
-        require __DIR__ . '/index.php';
-        break;
-    case $BASE_URL . '/':
-        require __DIR__ . '/index.php';
-        break;
-    case $BASE_URL . 'spot/get_all':
-        # code...
-        break;
-    case $BASE_URL . 'spot/get_amount_free':
-        $spot->getAmountFree();
-        break;
-    case $BASE_URL . 'spot/get_free_spaces':
-        # code...
-        break;
-    case $BASE_URL . 'spot/set_space_occupied_state':
-        # code...
-        break;
-    default:
-        http_response_code(404);
-        break;
+if(hash("sha256", $_POST["verify_time"].$SECRET) == $_POST["hash"]) {
+    switch ($request) {
+        case $BASE_URL . '':
+            require __DIR__ . '/index.php';
+            break;
+        case $BASE_URL . '/':
+            require __DIR__ . '/index.php';
+            break;
+        case $BASE_URL . 'spot/get_all':
+            # code...
+            break;
+        case $BASE_URL . 'spot/get_amount_free':
+            $spot->getAmountFree();
+            break;
+        case $BASE_URL . 'spot/get_free_spaces':
+            # code...
+            break;
+        case $BASE_URL . 'spot/set_space_occupied_state':
+            # code...
+            break;
+        default:
+            http_response_code(404);
+            break;
+    }    
+} else{
+    http_response_code(401);
 }
+
