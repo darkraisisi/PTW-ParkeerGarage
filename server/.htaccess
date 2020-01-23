@@ -2,4 +2,4 @@ RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.+)$ /PTW-parkeergarage/server/index.php [QSA,L]
+RewriteRule ^(.+)$ /PTW/server/index.php [QSA,L]

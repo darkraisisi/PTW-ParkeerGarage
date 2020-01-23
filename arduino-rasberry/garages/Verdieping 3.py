@@ -4,6 +4,8 @@ import requests
 import RPi.GPIO as GPIO
 from time import sleep
 
+from Crypto.Hash import SHA256
+from time import time as millsec
 
 # Welke pin van de Raspberry gebruikt wordt
 knop1_pin = 40
@@ -33,6 +35,13 @@ Button_state3 = False
 payload = None
 old_payload = None
 server_ip = "145.89.103.169"
+
+SECRET = "6423834HeuEHUADd679ii7e67990YEu"
+
+def encrypt():
+    nowtime = int(millsec())
+    toHash = (str(nowtime) + SECRET).encode('utf-8')
+    return nowtime, SHA256.new(toHash)
 
 #loop voor licht besturing
 while(1):
@@ -82,5 +91,7 @@ while(1):
             Button_state3 = False
             sleep(.5)
     if old_payload != payload or payload != None:
+        nowtime, hash_text = encrypt()
+        payload.update({'verify_time' : nowtime, 'hash' : hash_text})
         requests.post(server_ip + "/managers/spotManager.php", paramas=payload)
         old_payload = payload

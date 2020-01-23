@@ -3,7 +3,7 @@ include_once "managers/spotManager.php";
 
 $spot = new Spot();
 $SECRET = "6423834HeuEHUADd679ii7e67990YEu";
-$BASE_URL = "/PTW-parkeergarage/server/";
+$BASE_URL = "/ptw/server/";
 $request = $_SERVER['REQUEST_URI'];
 //manier 1, de functie uit de request halen.
 
@@ -32,7 +32,7 @@ if(hash("sha256", $_POST["verify_time"].$SECRET) == $_POST["hash"]) {
             # code...
             break;
         case $BASE_URL . 'spot/get_amount_free':
-            $spot->getAmountFree();
+            var_dump($spot->getFreeSpacesFromGarage(1));
             break;
         case $BASE_URL . 'spot/get_free_spaces':
             # code...
@@ -45,6 +45,7 @@ if(hash("sha256", $_POST["verify_time"].$SECRET) == $_POST["hash"]) {
             break;
     }    
 } else{
+    echo"Not authorized";
     http_response_code(401);
 }
 
