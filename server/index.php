@@ -32,7 +32,7 @@ if(hash("sha256", $_POST["verify_time"].$SECRET) == $_POST["hash"]) {
             # code...
             break;
         case $BASE_URL . 'spot/get_amount_free':
-            var_dump($spot->getFreeSpacesFromGarage(1));
+            var_dump($spot->getAmountFreeFromGarage(0));
             break;
         case $BASE_URL . 'spot/get_free_spaces':
             # code...
@@ -45,7 +45,7 @@ if(hash("sha256", $_POST["verify_time"].$SECRET) == $_POST["hash"]) {
             break;
     }    
 } else{
-    echo"Not authorized";
+    echo"Not authorised.";
     http_response_code(401);
 }
 
