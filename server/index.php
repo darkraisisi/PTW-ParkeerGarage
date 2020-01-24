@@ -28,17 +28,21 @@ if(hash("sha256", $_POST["verify_time"].$SECRET) == $_POST["hash"]) {
         case $BASE_URL . '/':
             require __DIR__ . '/index.php';
             break;
-        case $BASE_URL . 'spot/get_all':
-            # code...
+        case $BASE_URL . 'spot/get_all_garages':
+            echo(json_encode($spot->getParkingGarages()));
             break;
-        case $BASE_URL . 'spot/get_amount_free':
-            var_dump($spot->getAmountFreeFromGarage(0));
+        case $BASE_URL . 'spot/get_all_from_garage':
+            echo(json_encode($spot->getAllFromGarage($_POST['garage_id'])));
             break;
-        case $BASE_URL . 'spot/get_free_spaces':
-            # code...
+        case $BASE_URL . 'spot/get_amount_free_from_garage':
+            echo(json_encode($spot->getAmountFreeFromGarage($_POST['garage_id'])));
+            break;
+        case $BASE_URL . 'spot/get_free_spaces_from_garage':
+            echo(json_encode($spot->getFreeSpacesFromGarage($_POST['garage_id'])));
             break;
         case $BASE_URL . 'spot/set_space_occupied_state':
-            # code...
+            // echo('set_space_occupied_state');
+            echo(json_encode($spot->setSpaceOccupiedState($_POST['garage_id'],$_POST['level_number'],$_POST['spot_number'],$_POST['state'])));
             break;
         default:
             http_response_code(404);
