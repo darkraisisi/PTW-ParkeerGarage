@@ -12,7 +12,7 @@ include_once 'database/db.php';
 
         public function getAmountFreeFromGarage($id){ //Gives you the number of free spots from a selected garage.
             global $con;
-            $statement = $con->prepare("SELECT count(*) FROM `parking_spot` WHERE occupation = 'false' AND garage = :garage_id");
+            $statement = $con->prepare("SELECT count(*) FROM `parking_spot` WHERE occupation = 'false' AND garage = :garage_id AND `reserve_untill` IS NULL");
             $statement->bindValue(":garage_id",$id);
             $statement->execute();
             $count = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -21,7 +21,7 @@ include_once 'database/db.php';
         
         public function getFreeSpacesFromGarage($id){ //Gives you the free spots from a selected garage.
             global $con;
-            $statement = $con->prepare("SELECT * FROM `parking_spot` WHERE `occupation` = 0 AND `garage` = :garage_id ");
+            $statement = $con->prepare("SELECT * FROM `parking_spot` WHERE `occupation` = 0 AND `garage` = :garage_id AND `reserve_untill` IS NULL");
             $statement->bindValue(":garage_id",$id);
             $statement->execute();
             $count = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -30,7 +30,7 @@ include_once 'database/db.php';
 
         public function setSpaceOccupiedState(int $garage_id, int $level, int $spotNmr, $state){ //Changes the state of a specific spot.
             global $con;
-            $statement = $con->prepare("UPDATE `parking_spot` SET `occupation` = :state WHERE `number` = :spotNmr AND `garage` = :garage_id AND `level` = :level");
+            $statement = $con->prepare("UPDATE `parking_spot` SET `occupation` = :state, `reserve_untill` = NULL  WHERE `number` = :spotNmr AND `garage` = :garage_id AND `level` = :level");
             $statement->bindValue(":state",$state);
             $statement->bindValue(":spotNmr",$spotNmr);
             $statement->bindValue(":garage_id",$garage_id);
@@ -77,6 +77,23 @@ include_once 'database/db.php';
             $statement->execute();
             $count = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $count[0];
+        }
+
+        public function getRecommendedSpotFromGarage($garage_id){
+            global $con;
+            $nowDate = new DateTime();
+            $nowDate->add(new DateInterval('PT10M'));
+            $available = $this->getFreeSpacesFromGarage($garage_id);
+            $statement = $con->prepare("UPDATE `parking_spot` SET `reserve_untill` = :time WHERE `parking_spot`.`id` = :spot_id");
+            $statement->bindValue(":time",$nowDate->format('yy-m-d H:i:s'));
+            $statement->bindValue(":spot_id",intval($available[0]['id']));
+            $statement->execute();
+            if(count($available) > 0){
+                $available[0]['reserve_untill'] = $nowDate->format('yy-m-d H:i:s');
+                return $available[0];
+            }else{
+                $ret['succes'] = false;
+            }
         }
 
     }

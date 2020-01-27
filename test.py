@@ -1,5 +1,5 @@
 import time
-from Crypto.Hash import SHA256
+from Cryptodome.Hash import SHA256
 from time import time as millsec
 
 SECRET = "6423834HeuEHUADd679ii7e67990YEu"

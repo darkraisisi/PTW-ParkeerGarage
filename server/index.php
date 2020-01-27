@@ -36,7 +36,7 @@ if(hash("sha256", $_POST["verify_time"].$SECRET) == $_POST["hash"]) {
             echo(json_encode($spot->getAllFromGarage($_POST['garage_id'])));
             break;
         case $BASE_URL . 'spot/get_amount_free_from_garage':
-            echo(json_encode($spot->getAmountFreeFromGarage($_POST['garage_id'])));
+            echo(    $spot->getAmountFreeFromGarage($_POST['garage_id']) );
             break;
         case $BASE_URL . 'spot/get_free_spaces_from_garage':
             echo(json_encode($spot->getFreeSpacesFromGarage($_POST['garage_id'])));
@@ -45,12 +45,17 @@ if(hash("sha256", $_POST["verify_time"].$SECRET) == $_POST["hash"]) {
             // echo('set_space_occupied_state');
             echo(json_encode($spot->setSpaceOccupiedState($_POST['garage_id'],$_POST['level_number'],$_POST['spot_number'],$_POST['state'])));
             break;
+        case $BASE_URL . 'spot/get_recommended_spot_from_garage':
+            echo(json_encode($spot->getRecommendedSpotFromGarage($_POST['garage_id'])));
+            break;
         default:
             http_response_code(404);
             break;
     }    
 } else{
     echo"Not authorised.";
+    // print("HASH: ".hash("sha256", $_POST["verify_time"].$SECRET));
+    // print("POST_HASH: ". strval($_POST["hash"]));
     http_response_code(401);
 }
 
