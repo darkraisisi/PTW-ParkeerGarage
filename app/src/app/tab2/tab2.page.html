@@ -1,10 +1,18 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Two
+      Onze Garages
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-searchbar>
+
+  </ion-searchbar>
+  <ion-list *ngFor="let garage of garages">
+    <ion-item>
+      <p>{{garage.place}}</p>
+    </ion-item>
+  </ion-list>
 </ion-content>

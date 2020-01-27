@@ -16,7 +16,7 @@ include_once 'database/db.php';
             $statement->bindValue(":garage_id",$id);
             $statement->execute();
             $count = $statement->fetchAll(PDO::FETCH_ASSOC);
-            return $count[0];
+            return $count[0]['count(*)'];
         }
 
         public function getFreeSpaces(){
