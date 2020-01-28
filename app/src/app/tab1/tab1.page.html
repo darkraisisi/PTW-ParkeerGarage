@@ -21,12 +21,23 @@
     <ion-card class="welcome-card">
       <div class="ion-card-small-pic"><img src="https://q-park-online-prod.azureedge.net/-/media/images/contentblock-images/qpark-nl/home/home-cb-abonnementen.jpg?rev=9f2d17ef-f185-4b9c-a577-413b7d5bf60a&hash=FC4868B9AC2007F9D3213F453D1F8BA2&hash=FC4868B9AC2007F9D3213F453D1F8BA2" alt="" />
       </div>
-      <ion-card-header>
-        <ion-card-subtitle>Uw laatst bezochte plek</ion-card-subtitle>
-        <ion-card-title>Uw Plaats</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
-      </ion-card-content>
+      <ng-container *ngIf="favGarage">
+        <ion-card-header>
+          <ion-card-subtitle>Uw favoriete garage</ion-card-subtitle>
+          <ion-card-title>{{favGarage.name}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <h2>Het aantal plaatsen vrij: {{freeSpaces}}</h2>
+        </ion-card-content>
+      </ng-container>
+      <ng-container *ngIf="!favGarage">
+        <ion-card-header>
+          <ion-card-subtitle>Uw favoriete garage is nog onbekend</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <h2>Het aantal vrije plaatsen komt hier te staan wanneer u een favoriete garage selecteerd.</h2>
+        </ion-card-content>
+      </ng-container>
+      
     </ion-card>
 </ion-content>
