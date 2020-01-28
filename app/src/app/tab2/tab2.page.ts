@@ -18,7 +18,7 @@ export class Tab2Page {
   garages: Array<Garage> = [];
   allGarages: Array<Garage> = [];
   favGarage: Garage;
-  serverurl = 'http://192.168.178.173/ptw/server/';
+  serverurl = 'http://145.89.160.167/ptw/server/';
   // serverurl = 'http://localhost/ptw/server/';
   error = 0
   SECRET = "6423834HeuEHUADd679ii7e67990YEu"

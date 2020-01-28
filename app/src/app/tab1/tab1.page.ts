@@ -18,7 +18,7 @@ export class Tab1Page {
 
   favGarage: Garage;
   freeSpaces = 0;
-  serverurl = 'http://192.168.178.173/ptw/server/';
+  serverurl = 'http://145.89.160.167/ptw/server/';
   // serverurl = 'http://localhost/ptw/server/';
 
   SECRET = "6423834HeuEHUADd679ii7e67990YEu"
