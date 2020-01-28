@@ -25,11 +25,11 @@ export class Tab2Page {
 
   constructor(private http: HttpClient) {
     this.favGarage = JSON.parse(localStorage.getItem('favorite'))
+
   }
   
-  ionViewDidEnter(){
+  ngOnInit(){
     this.getAllGarages()
-    this.garages = this.allGarages
   }
   getAllGarages() {
     const formData = new FormData()
@@ -47,6 +47,7 @@ export class Tab2Page {
       this.http.post(this.serverurl + 'spot/get_all_garages',formData).subscribe((data:Array<Garage>) => {
         console.log(data)
         this.allGarages = data
+        this.garages = data
       },error=>{
         console.log(error)
         this.error = 404
@@ -84,6 +85,15 @@ export class Tab2Page {
       this.favGarage = garage
     }
     localStorage.setItem('favorite',JSON.stringify(this.favGarage))
+  }
+
+  isEqual(currgar){
+    if(this.favGarage.name == currgar.name){
+      console.log(currgar)
+      return true
+    }else{
+      return false
+    }
   }
 
 }
