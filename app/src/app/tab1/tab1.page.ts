@@ -30,7 +30,7 @@ export class Tab1Page {
     this.favGarage = JSON.parse(localStorage.getItem('favorite'))
     console.log(this.favGarage)
     // this.freeSpaces = this.getFreeSpacesFromGarage(this.favGarage.id);
-    this.getFreeSpacesFromGarage(this.favGarage.id)
+    this.getFreeSpacesFromGarage(this.favGarage.id ? this.favGarage.id : 1)
   }
   getFreeSpacesFromGarage(id: number) {
     const formData = new FormData()

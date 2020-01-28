@@ -24,10 +24,12 @@ export class Tab2Page {
   SECRET = "6423834HeuEHUADd679ii7e67990YEu"
 
   constructor(private http: HttpClient) {
-    
+    this.favGarage = JSON.parse(localStorage.getItem('favorite'))
+  }
+  
+  ionViewDidEnter(){
     this.getAllGarages()
     this.garages = this.allGarages
-    this.favGarage = JSON.parse(localStorage.getItem('favorite'))
   }
   getAllGarages() {
     const formData = new FormData()
